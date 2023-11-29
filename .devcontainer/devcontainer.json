@@ -1,0 +1,35 @@
+{
+	"image": "mcr.microsoft.com/devcontainers/universal:2",
+	"features": {
+		"ghcr.io/devcontainers-contrib/features/zsh-plugins:0": {
+			"plugins": "ssh-agent git npm golang aws docker docker-compose",
+			"omzPlugins": "https://github.com/zsh-users/zsh-autosuggestions",
+			"username": "vscode"
+		}
+	},
+
+	// Configure tool-specific properties.
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"amazonwebservices.aws-toolkit-vscode",
+				"golang.go",
+				"ms-vscode.makefile-tools",
+				"ms-vsliveshare.vsliveshare"
+			]
+		},
+		"settings": {
+			"editor.tabSize": 4,
+			"terminal.integrated.defaultProfile.linux": "zsh",
+			"terminal.integrated.profiles.linux": {
+			  "bash": {
+				"path": "bash",
+				"icon": "terminal-bash"
+			  },
+			  "zsh": {
+				"path": "zsh"
+			  }
+			}
+		}
+	}
+}
