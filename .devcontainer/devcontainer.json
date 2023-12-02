@@ -15,7 +15,8 @@
 				"amazonwebservices.aws-toolkit-vscode",
 				"golang.go",
 				"ms-vscode.makefile-tools",
-				"ms-vsliveshare.vsliveshare"
+				"ms-vsliveshare.vsliveshare",
+				"esbenp.prettier-vscode"
 			]
 		},
 		"settings": {
