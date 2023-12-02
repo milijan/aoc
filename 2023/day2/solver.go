@@ -36,6 +36,29 @@ func Solver1(games []string, bag map[string]int) int {
 	return sum
 }
 
-func Solver2(lines []string) int {
-	return 0
+func Solver2(games []string) int {
+	sum := 0
+	for _, game := range games {
+		bag := map[string]int{"red": 0, "green": 0, "blue": 0}
+		_, sets, ok := strings.Cut(game, ": ")
+		if !ok {
+			continue
+		}
+		for _, set := range strings.Split(sets, "; ") {
+			for _, draw := range strings.Split(set, ", ") {
+				draw := strings.Split(draw, " ")
+				cubes, err := strconv.Atoi(draw[0])
+				if err != nil {
+					panic(err)
+				}
+				color := draw[1]
+				if bag[color] < cubes {
+					bag[color] = cubes
+				}
+			}
+		}
+		sum += bag["red"] * bag["green"] * bag["blue"]
+	}
+
+	return sum
 }
