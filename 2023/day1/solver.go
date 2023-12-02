@@ -5,58 +5,68 @@ import (
 	"strings"
 )
 
-func ReplaceFirst(line string, digitsStr []string) (string, int) {
-	digitsNum := []string{"1", "2", "3", "4", "5", "6", "7", "8", "9"}
+func Reverse(s string) (result string) {
+	for _, v := range s {
+		result = string(v) + result
+	}
+	return
+}
+
+func FirstNumeric(line string) (int, int) {
+	digit := 0
+	for i, c := range line {
+		if c >= '1' && c <= '9' {
+			return int(c - '0'), i
+		}
+	}
+	return digit, -1
+}
+
+func FirstAlpha(line string, digitsStr []string) (int, int) {
 	index := -1
 	digitRank := -1
-	count := 0
 	for i, digit := range digitsStr {
 		rank := strings.Index(line, digit)
 		if rank >= 0 {
-			count++
 			if digitRank < 0 || rank < digitRank {
 				digitRank = rank
 				index = i
 			}
 		}
 	}
-	if index >= 0 {
-		line = strings.Replace(line, digitsStr[index], digitsNum[index], 1)
-	}
-	return line, count
+	return index + 1, digitRank
 }
 
-func ReplaceLast(line string, digitsStr []string) string {
-	digitsNum := []string{"1", "2", "3", "4", "5", "6", "7", "8", "9"}
-	index := -1
-	digitRank := -1
-	for i, digit := range digitsStr {
-		rank := strings.LastIndex(line, digit)
-		if rank >= 0 {
-			if digitRank < 0 || rank > digitRank {
-				digitRank = rank
-				index = i
-			}
+func FirstDigit(line string, digitsStr []string) int {
+	numDigit, numDigitPos := FirstNumeric(line)
+	alphaDigit, alphaDigitPos := FirstAlpha(line, digitsStr)
+
+	if numDigitPos < alphaDigitPos {
+		if numDigitPos >= 0 {
+			return numDigit
+		} else {
+			return alphaDigit
+		}
+	} else {
+		if alphaDigitPos >= 0 {
+			return alphaDigit
+		} else {
+			return numDigit
 		}
 	}
-	if index >= 0 {
-		line = strings.ReplaceAll(line, digitsStr[index], digitsNum[index])
-	}
-	return line
 }
 
-func Interpret(line string) string {
-	//line = strings.ToLower(line)
+func Decode2(line string) int {
 	digitsStr := []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine"}
+	digitsRevStr := []string{"eno", "owt", "eerht", "ruof", "evif", "xis", "neves", "thgie", "enin"}
 
-	line, count := ReplaceFirst(line, digitsStr)
-	if count > 1 {
-		line = ReplaceLast(line, digitsStr)
-	}
-	return line
+	f := FirstDigit(line, digitsStr)
+	l := FirstDigit(Reverse(line), digitsRevStr)
+
+	return 10*f + l
 }
 
-func Decode(line string) int {
+func Decode1(line string) int {
 	code := 0
 	first := true
 	var f, l string
@@ -78,7 +88,7 @@ func Decode(line string) int {
 func Solver1(lines []string) int {
 	sum := 0
 	for _, line := range lines {
-		sum += Decode(line)
+		sum += Decode1(line)
 	}
 
 	return sum
@@ -87,7 +97,7 @@ func Solver1(lines []string) int {
 func Solver2(lines []string) int {
 	sum := 0
 	for _, line := range lines {
-		sum += Decode(Interpret(line))
+		sum += Decode2(line)
 	}
 
 	return sum

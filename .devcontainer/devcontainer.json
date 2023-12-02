@@ -9,7 +9,7 @@
 			"dockerDashComposeVersion": "v2"
 		},
 		"ghcr.io/devcontainers-contrib/features/zsh-plugins:0": {
-			"plugins": "ssh-agent git npm golang aws docker docker-compose",
+			"plugins": "git npm golang aws docker docker-compose",
 			"omzPlugins": "https://github.com/zsh-users/zsh-autosuggestions",
 			"username": "vscode"
 		}
