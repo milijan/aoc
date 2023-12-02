@@ -1,6 +1,13 @@
 {
-	"image": "mcr.microsoft.com/devcontainers/universal:2",
+	"image": "mcr.microsoft.com/devcontainers/go:1-1.21-bullseye",
 	"features": {
+		"ghcr.io/devcontainers/features/docker-in-docker:2": {
+			"moby": true,
+			"azureDnsAutoDetection": false,
+			"installDockerBuildx": false,
+			"version": "latest",
+			"dockerDashComposeVersion": "v2"
+		},
 		"ghcr.io/devcontainers-contrib/features/zsh-plugins:0": {
 			"plugins": "ssh-agent git npm golang aws docker docker-compose",
 			"omzPlugins": "https://github.com/zsh-users/zsh-autosuggestions",
