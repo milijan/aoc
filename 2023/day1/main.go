@@ -15,15 +15,21 @@ func main() {
 		panic(err)
 	}
 
-	puzzle, err := os.ReadFile(filepath.Join(cwd, "puzzle.txt"))
+	// only consider numbers
+	puzzle1, err := os.ReadFile(filepath.Join(cwd, "puzzle.txt"))
 	if err != nil {
 		fmt.Println(err)
 	}
-	lines := strings.Split(string(puzzle), "\n")
-
-	sol1 := Solver1(lines)
+	puzzle := strings.Split(string(puzzle1), "\n")
+	sol1 := Solver1(puzzle)
 	fmt.Println("-> puzzle 1:", sol1)
 
-	sol2 := Solver2(lines)
+	// consider numbers and literals
+	puzzle2, err := os.ReadFile(filepath.Join(cwd, "puzzle.txt"))
+	if err != nil {
+		fmt.Println(err)
+	}
+	puzzle = strings.Split(string(puzzle2), "\n")
+	sol2 := Solver2(puzzle)
 	fmt.Println("-> puzzle 2:", sol2)
 }

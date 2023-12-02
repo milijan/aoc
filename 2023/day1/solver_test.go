@@ -14,6 +14,14 @@ func TestSolver1(t *testing.T) {
 	}
 
 	test([]string{}, 0)
+	test([]string{"asd4asd5asd"}, 45)
+	test([]string{"123"}, 13)
+	test([]string{"13"}, 13)
+	test([]string{"a12aaa3"}, 13)
+	test([]string{"12aa3aa"}, 13)
+	test([]string{"5"}, 55)
+	test([]string{"05"}, 5)
+	test([]string{"1abc2", "pqr3stu8vwx", "a1b2c3d4e5f", "treb7uchet"}, 142)
 }
 
 func TestSolver2(t *testing.T) {
@@ -26,4 +34,13 @@ func TestSolver2(t *testing.T) {
 	}
 
 	test([]string{}, 0)
+	test([]string{"two1nine"}, 29)
+	test([]string{"eightwothree"}, 83)
+	test([]string{"eightwo"}, 88)
+	test([]string{"abcone2threexyz"}, 13)
+	test([]string{"xtwone3four"}, 24)
+	test([]string{"4nineeightseven2"}, 42)
+	test([]string{"zoneight234"}, 14)
+	test([]string{"7pqrstsixteen"}, 76)
+	test([]string{"two1nine", "eightwothree", "abcone2threexyz", "xtwone3four", "4nineeightseven2", "zoneight234", "7pqrstsixteen"}, 281)
 }
