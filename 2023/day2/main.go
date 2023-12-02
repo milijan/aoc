@@ -7,27 +7,28 @@ import (
 	"strings"
 )
 
-func main() {
+func LoadPuzzle(filename string) []string {
 	cwd, err := os.Getwd()
 	if err != nil {
 		panic(err)
 	}
 
-	// only consider numbers
-	puzzle1, err := os.ReadFile(filepath.Join(cwd, "puzzle.txt"))
+	content, err := os.ReadFile(filepath.Join(cwd, filename))
 	if err != nil {
 		fmt.Println(err)
+		return []string{}
 	}
-	puzzle := strings.Split(string(puzzle1), "\n")
-	sol1 := Solver1(puzzle)
+	puzzle := strings.Split(string(content), "\n")
+
+	return puzzle
+}
+
+func main() {
+	puzzle := LoadPuzzle("puzzle.txt")
+
+	sol1 := Solver1(puzzle, map[string]int{"red": 12, "green": 13, "blue": 14})
 	fmt.Println("-> puzzle 1:", sol1)
 
-	// consider numbers and literals
-	puzzle2, err := os.ReadFile(filepath.Join(cwd, "puzzle.txt"))
-	if err != nil {
-		fmt.Println(err)
-	}
-	puzzle = strings.Split(string(puzzle2), "\n")
 	sol2 := Solver2(puzzle)
 	fmt.Println("-> puzzle 2:", sol2)
 }

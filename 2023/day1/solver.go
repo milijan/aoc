@@ -85,6 +85,8 @@ func Decode1(line string) int {
 	return code
 }
 
+// combining the first digit and the last digit (in that order) to form a single two-digit number
+// What is the sum of all of the calibration values?
 func Solver1(lines []string) int {
 	sum := 0
 	for _, line := range lines {
@@ -94,6 +96,7 @@ func Solver1(lines []string) int {
 	return sum
 }
 
+// same thing but bow digits can be strings
 func Solver2(lines []string) int {
 	sum := 0
 	for _, line := range lines {
