@@ -13,22 +13,29 @@ import (
 	"strings"
 )
 
-func main() {
+func LoadPuzzle(filename string) []string {
 	cwd, err := os.Getwd()
 	if err != nil {
 		panic(err)
 	}
 
-	puzzle, err := os.ReadFile(filepath.Join(cwd, "puzzle.txt"))
+	content, err := os.ReadFile(filepath.Join(cwd, filename))
 	if err != nil {
 		fmt.Println(err)
+		return []string{}
 	}
-	lines := strings.Split(string(puzzle), "\\n")
+	puzzle := strings.Split(string(content), "\\n")
 
-	sol1 := Solver1(lines)
+	return puzzle
+}
+
+func main() {
+	puzzle := LoadPuzzle("puzzle.txt")
+
+	sol1 := Solver1(puzzle)
 	fmt.Println("-> puzzle 1:", sol1)
 
-	sol2 := Solver2(lines)
+	sol2 := Solver2(puzzle)
 	fmt.Println("-> puzzle 2:", sol2)
 }
 endef
@@ -56,6 +63,8 @@ import (
 
 func TestSolver1(t *testing.T) {
 
+	puzzle := LoadPuzzle("test.txt")
+
 	test := func(lines []string, expected int) {
 		result := Solver1(lines)
 		if result != expected {
@@ -64,9 +73,13 @@ func TestSolver1(t *testing.T) {
 	}
 
 	test([]string{}, 0)
+	test([]string{puzzle[0]}, 0)
+	test(puzzle, 0)
 }
 
 func TestSolver2(t *testing.T) {
+
+	puzzle := LoadPuzzle("test.txt")
 
 	test := func(lines []string, expected int) {
 		result := Solver2(lines)
@@ -76,6 +89,8 @@ func TestSolver2(t *testing.T) {
 	}
 
 	test([]string{}, 0)
+	test([]string{puzzle[0]}, 0)
+	test(puzzle, 0)
 }
 
 endef
@@ -98,6 +113,8 @@ export TEST_TEMPLATE
 	@echo "$$MAIN_TEMPLATE" > $(@D)/main.go
 	@echo create puzzle file
 	@touch $(@D)/puzzle.txt
+	@echo create test file
+	@touch $(@D)/test.txt
 
 # solve puzzle
 $(PUZZLES): %: %/solver.go %/main.go
