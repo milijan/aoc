@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"strings"
 
 	"golang.org/x/oauth2"
 )
@@ -48,7 +47,7 @@ func GetPuzzle() {
 	client.Get("...")
 }
 
-func LoadPuzzle(filename string) []string {
+func LoadPuzzle(filename string) string {
 	cwd, err := os.Getwd()
 	if err != nil {
 		panic(err)
@@ -57,9 +56,9 @@ func LoadPuzzle(filename string) []string {
 	content, err := os.ReadFile(filepath.Join(cwd, filename))
 	if err != nil {
 		fmt.Println(err)
-		return []string{}
+		return ""
 	}
-	puzzle := strings.Split(string(content), "\n")
+	puzzle := string(content)
 
 	return puzzle
 }
