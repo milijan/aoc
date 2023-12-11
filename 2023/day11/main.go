@@ -44,6 +44,6 @@ func main() {
 	sol1 := Solver1(puzzle)
 	fmt.Println("-> puzzle 1:", sol1)
 
-	sol2 := Solver2(puzzle)
+	sol2 := Solver2(puzzle, 1000000)
 	fmt.Println("-> puzzle 2:", sol2)
 }

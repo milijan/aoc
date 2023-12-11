@@ -15,8 +15,21 @@ type Puzzle struct {
 	grid [][]byte
 }
 
-func Distance(a, b Galaxy) int {
-	return int(math.Abs(float64(a.x-b.x)) + math.Abs(float64(a.y-b.y)))
+func Distance(puzzle Puzzle, scale int, a, b Galaxy) int {
+	k := 0
+	for i := a.x; i < b.x; i++ {
+		if puzzle.grid[i][0] == '*' {
+			k++
+		}
+	}
+	for j := a.y; j < b.y; j++ {
+		if puzzle.grid[0][j] == '*' {
+			k++
+		}
+	}
+	d := int(math.Abs(float64(a.x-b.x))+math.Abs(float64(a.y-b.y))) + k*(scale-1)
+	//fmt.Println(a, b, d)
+	return d
 }
 
 func FindGalaxies(puzzle Puzzle) []Galaxy {
@@ -53,6 +66,10 @@ func Expand(puzzle Puzzle) Puzzle {
 		rows: puzzle.rows,
 		cols: puzzle.cols,
 	}
+	r := make([]byte, puzzle.cols)
+	for i := range r {
+		r[i] = '*'
+	}
 	for _, row := range puzzle.grid {
 		empty := true
 		for _, c := range row {
@@ -61,9 +78,9 @@ func Expand(puzzle Puzzle) Puzzle {
 				break
 			}
 		}
-		newPuzzle.grid = append(newPuzzle.grid, row)
 		if empty {
-			newPuzzle.rows++
+			newPuzzle.grid = append(newPuzzle.grid, r)
+		} else {
 			newPuzzle.grid = append(newPuzzle.grid, row)
 		}
 	}
@@ -78,11 +95,15 @@ func Solver1(puzzle Puzzle) int {
 
 	galaxies := FindGalaxies(newPuzzle)
 
+	//for _, row := range newPuzzle.grid {
+	//	fmt.Println(string(row))
+	//}
+
 	sum := 0
 	for i, g1 := range galaxies {
 		for _, g2 := range galaxies[i+1:] {
 			if g1 != g2 {
-				sum += Distance(g1, g2)
+				sum += Distance(newPuzzle, 2, g1, g2)
 			}
 		}
 
@@ -90,6 +111,22 @@ func Solver1(puzzle Puzzle) int {
 	return sum
 }
 
-func Solver2(puzzle Puzzle) int {
-	return 0
+func Solver2(puzzle Puzzle, scale int) int {
+	newPuzzle := Expand(puzzle)
+	newPuzzle = Transpose(newPuzzle)
+	newPuzzle = Expand(newPuzzle)
+	newPuzzle = Transpose(newPuzzle)
+
+	galaxies := FindGalaxies(newPuzzle)
+
+	sum := 0
+	for i, g1 := range galaxies {
+		for _, g2 := range galaxies[i+1:] {
+			if g1 != g2 {
+				sum += Distance(newPuzzle, scale, g1, g2)
+			}
+		}
+
+	}
+	return sum
 }
