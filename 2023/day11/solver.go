@@ -17,18 +17,33 @@ type Puzzle struct {
 
 func Distance(puzzle Puzzle, scale int, a, b Galaxy) int {
 	k := 0
-	for i := a.x; i < b.x; i++ {
-		if puzzle.grid[i][0] == '*' {
-			k++
+	if a.x < b.x {
+		for i := a.x; i < b.x; i++ {
+			if puzzle.grid[i][0] == '*' {
+				k++
+			}
+		}
+	} else {
+		for i := b.x; i < a.x; i++ {
+			if puzzle.grid[i][0] == '*' {
+				k++
+			}
 		}
 	}
-	for j := a.y; j < b.y; j++ {
-		if puzzle.grid[0][j] == '*' {
-			k++
+	if a.y < b.y {
+		for j := a.y; j < b.y; j++ {
+			if puzzle.grid[0][j] == '*' {
+				k++
+			}
+		}
+	} else {
+		for j := b.y; j < a.y; j++ {
+			if puzzle.grid[0][j] == '*' {
+				k++
+			}
 		}
 	}
 	d := int(math.Abs(float64(a.x-b.x))+math.Abs(float64(a.y-b.y))) + k*(scale-1)
-	//fmt.Println(a, b, d)
 	return d
 }
 
@@ -94,10 +109,6 @@ func Solver1(puzzle Puzzle) int {
 	newPuzzle = Transpose(newPuzzle)
 
 	galaxies := FindGalaxies(newPuzzle)
-
-	//for _, row := range newPuzzle.grid {
-	//	fmt.Println(string(row))
-	//}
 
 	sum := 0
 	for i, g1 := range galaxies {
