@@ -24,11 +24,11 @@ func LoadPuzzle(filename string) []Hail {
 	for _, line := range strings.Split(string(content), "\n") {
 		state := strings.Split(line, "@")
 		h := Hail{}
-		for _, p := range strings.Split(state[1], ",") {
+		for _, p := range strings.Split(state[0], ",") {
 			d, _ := strconv.Atoi(p)
 			h.position = append(h.position, d)
 		}
-		for _, v := range strings.Split(state[2], ",") {
+		for _, v := range strings.Split(state[1], ",") {
 			d, _ := strconv.Atoi(v)
 			h.velocity = append(h.velocity, d)
 		}
