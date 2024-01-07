@@ -1,13 +1,13 @@
 package main
 
 type Hail struct {
-	position []int64
-	velocity []int64
+	position []float64
+	velocity []float64
 }
 
-func IsCrossing(A Hail, B Hail) (bool, int64) {
+func IsCrossing(A Hail, B Hail) (bool, float64) {
 	det := A.velocity[0]*B.velocity[1] - B.velocity[0]*A.velocity[1]
-	return !(det == 0), det
+	return !(det == 0.0), det
 }
 
 func XIntercept(A Hail, B Hail) (bool, float64) {
@@ -15,36 +15,34 @@ func XIntercept(A Hail, B Hail) (bool, float64) {
 	if ok {
 		num := A.velocity[0]*B.velocity[1]*B.position[0] - B.velocity[0]*A.velocity[1]*A.position[0]
 		num += A.velocity[0] * B.velocity[0] * (A.position[1] - B.position[1])
-		return ok, float64(num) / float64(det)
+		return ok, num / det
 	} else {
 		return ok, 0
 	}
 }
 
 func YIntercept(A Hail, B Hail, X float64) float64 {
-	num := float64(A.velocity[1])*(X-float64(A.position[0])) +
-		float64(A.velocity[0]*A.position[1])
-	return num / float64(A.velocity[0])
+	num := A.velocity[1]*X - A.position[0] +
+		A.velocity[0]*A.position[1]
+	return num / A.velocity[0]
 }
 
 func FutureIntercept(A Hail, X float64, Y float64) bool {
 	if A.velocity[0] != 0 {
-		return (X-float64(A.position[0]))/float64(A.velocity[0]) >= 0
+		return (X-A.position[0])/A.velocity[0] >= 0
 	} else {
-		return (Y-float64(A.position[1]))/float64(A.velocity[1]) >= 0
+		return (Y-A.position[1])/A.velocity[1] >= 0
 	}
 }
 
-func InAreaIntercept(area []uint64, X float64, Y float64) bool {
-	return X >= float64(area[0]) &&
-		X <= float64(area[1]) &&
-		Y >= float64(area[0]) &&
-		Y <= float64(area[1])
+func InAreaIntercept(area []float64, X float64, Y float64) bool {
+	return X >= area[0] && X <= area[1] && Y >= area[0] && Y <= area[1]
 }
 
-func Solver1(puzzle []Hail, area []uint64) int {
+func Solver1(puzzle []Hail, area []float64) int {
 	count := 0
 	n := len(puzzle)
+
 	for i := 0; i < n-1; i++ {
 		for j := i + 1; j < n; j++ {
 			ok, X := XIntercept(puzzle[i], puzzle[j])
