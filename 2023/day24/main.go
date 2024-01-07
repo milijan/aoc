@@ -25,12 +25,12 @@ func LoadPuzzle(filename string) []Hail {
 		state := strings.Split(line, "@")
 		h := Hail{}
 		for _, p := range strings.Split(state[0], ",") {
-			d, _ := strconv.Atoi(p)
-			h.position = append(h.position, d)
+			d, _ := strconv.Atoi(strings.Trim(p, " "))
+			h.position = append(h.position, int64(d))
 		}
 		for _, v := range strings.Split(state[1], ",") {
-			d, _ := strconv.Atoi(v)
-			h.velocity = append(h.velocity, d)
+			d, _ := strconv.Atoi(strings.Trim(v, " "))
+			h.velocity = append(h.velocity, int64(d))
 		}
 		puzzle = append(puzzle, h)
 	}
@@ -41,7 +41,7 @@ func LoadPuzzle(filename string) []Hail {
 func main() {
 	puzzle := LoadPuzzle("puzzle.txt")
 
-	sol1 := Solver1(puzzle)
+	sol1 := Solver1(puzzle, []uint64{200000000000000, 400000000000000})
 	fmt.Println("-> puzzle 1:", sol1)
 
 	sol2 := Solver2(puzzle)
